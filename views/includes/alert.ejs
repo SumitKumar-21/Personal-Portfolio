@@ -1,0 +1,23 @@
+<div class="flash-container col-10 col-md-6 mx-auto">
+
+  <% if (success && success.length) { %>
+    <div class="alert alert-success alert-dismissible fade show shadow-sm d-flex align-items-center gap-2 flash-alert" role="alert">
+      <i class="fa-solid fa-square-check bg-transparent" style="color: black;"></i>
+      <strong class="bg-transparent flex-grow-1">
+        <%= success %>
+      </strong>
+      <button type="button" class="btn-close bg-transparent" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% } %>
+
+  <% if (error && error.length) { %>
+    <div class="alert alert-warning alert-dismissible fade show shadow-sm d-flex align-items-center gap-2 flash-alert" role="alert">
+      <i class="fa-solid fa-triangle-exclamation bg-transparent " style="color: red;"></i>
+      <strong class="bg-transparent flex-grow-1">
+        <%= error %>
+      </strong>
+      <button type="button" class="btn-close bg-transparent" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% } %>
+
+</div>

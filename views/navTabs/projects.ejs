@@ -1,0 +1,145 @@
+<% layout("./layouts/boilerplate") %>
+
+<section class="projects-section">
+
+    <div class="projects-heading">
+        <span>My Work</span>
+        <h1>Featured Projects</h1>
+        <p>A collection of projects I've built while learning and exploring new technologies.</p>
+    </div>
+
+    <% if (projects && projects.length > 0) { %>
+
+        <div class="projects-grid">
+
+            <% projects.forEach((p) => { %>
+
+                <article class="project-card">
+
+                    <div class="project-header">
+
+                        <span class="project-type">
+                            Featured Project
+                        </span>
+
+                        <h2><%= p.title %></h2>
+
+                        <img
+                            class="project-thumbnail"
+                            src="<%= p.thumbnail?.url || '/images/default-project.jpg' %>"
+                            alt="<%= p.title %> thumbnail"
+                        >
+
+                        <p>
+                            <%= p.shortDescription || p.description || "No description available." %>
+                        </p>
+
+                    </div>
+
+                    <div class="project-meta">
+
+                        <% if (p.status && p.status.length > 0) { %>
+
+                            <span>
+                                <i class="fa-solid fa-circle-check"></i>
+                                <%= p.status.join(", ") %>
+                            </span>
+
+                        <% } %>
+
+                        <% if (p.date) { %>
+
+                            <span>
+                                <i class="fa-regular fa-calendar"></i>
+                                <%= p.date %>
+                            </span>
+
+                        <% } %>
+
+                    </div>
+
+
+                    <div class="project-brief">
+
+                        <% if (p.purpose) { %>
+
+                            <div class="project-brief-item">
+                                <span>Purpose</span>
+                                <p><%= p.purpose %></p>
+                            </div>
+
+                        <% } %>
+                    </div>
+
+
+                    <% if (p.techStack && p.techStack.length > 0) { %>
+
+                        <div class="tech-stack">
+
+                            <% p.techStack.forEach((tech) => { %>
+
+                                <span><%= tech %></span>
+
+                            <% }) %>
+
+                        </div>
+
+                    <% } %>
+
+
+                    <div class="project-buttons">
+
+                        <a
+                            href="/projects/viewDetails/<%= p._id %>"
+                            class="project-btn details-btn"
+                        >
+                            View Details  <span>↗</span>
+                        </a>
+
+
+                        <% if (p.githubLink) { %>
+
+                            <a
+                                href="<%= p.githubLink %>"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="project-btn github-btn"
+                            >
+                                  <i class="fa-brands fa-github bg-transparent" style="background: transparent;"></i>
+                                  GitHub
+                            </a>
+
+                        <% } %>
+
+
+                        <% if (p.iframeUrl) { %>
+
+                            <a
+                                href="<%= p.iframeUrl %>"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="project-btn demo-btn"
+                            >
+                                Live Demo
+                            </a>
+
+                        <% } %>
+
+                    </div>
+
+                </article>
+
+            <% }) %>
+
+        </div>
+
+    <% } else { %>
+
+        <div class="no-projects">
+            <h2>No projects available yet.</h2>
+            <p>New projects will be added soon 🚀</p>
+        </div>
+
+    <% } %>
+
+</section>

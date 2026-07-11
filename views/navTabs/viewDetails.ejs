@@ -1,0 +1,138 @@
+<% layout("./layouts/boilerplate") %>
+
+<% if (projectDetails) { %>
+    <section class="project-details-page">
+        <a href="/projects" class="details-back-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Projects
+        </a>
+
+        <div class="details-hero">
+            <div class="details-hero-copy">
+                <span class="details-kicker">Project Details</span>
+                <h1><%= projectDetails.title %></h1>
+
+                <p>
+                    <%= projectDetails.shortDescription || projectDetails.description || "A closer look at this project." %>
+                </p>
+
+                <% if (projectDetails.status && projectDetails.status.length) { %>
+                    <div class="details-status">
+                        <% projectDetails.status.forEach((item) => { %>
+                            <span><%= item %></span>
+                        <% }) %>
+                    </div>
+                <% } %>
+
+                <div class="details-actions">
+                    <% if (projectDetails.githubLink) { %>
+                        <a href="<%= projectDetails.githubLink %>" target="_blank" rel="noopener noreferrer" class="project-btn github-btn">
+                            <i class="fa-brands fa-github"></i>
+                            GitHub
+                        </a>
+                    <% } %>
+
+                    <% if (projectDetails.iframeUrl) { %>
+                        <a href="<%= projectDetails.iframeUrl %>" target="_blank" rel="noopener noreferrer" class="project-btn demo-btn">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            Open Live Site
+                        </a>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="details-hero-media">
+                <img
+                    src="<%= projectDetails.thumbnail?.url || '/images/logo.png' %>"
+                    alt="<%= projectDetails.title %> thumbnail"
+                >
+            </div>
+        </div>
+
+        <% if (projectDetails.iframeUrl) { %>
+            <section class="live-preview-section">
+                <div class="details-section-heading">
+                    <span>Live Preview</span>
+                    <h2>Explore the Project</h2>
+                </div>
+
+                <div class="browser-frame">
+                    <div class="browser-bar">
+                        <div class="browser-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <p><%= projectDetails.iframeUrl %></p>
+                    </div>
+
+                    <iframe
+                        src="<%= projectDetails.iframeUrl %>"
+                        title="<%= projectDetails.title %> live preview"
+                        loading="lazy"
+                        referrerpolicy="no-referrer"
+                    ></iframe>
+                </div>
+            </section>
+        <% } %>
+
+        <section class="details-content-grid">
+            <% if (projectDetails.description) { %>
+                <article class="details-info-panel details-info-panel-wide">
+                    <span>About This Project</span>
+                    <p><%= projectDetails.description %></p>
+                </article>
+            <% } %>
+
+            <% if (projectDetails.purpose) { %>
+                <article class="details-info-panel">
+                    <span>Why I Built It</span>
+                    <p><%= projectDetails.purpose %></p>
+                </article>
+            <% } %>
+
+            <% if (projectDetails.learning) { %>
+                <article class="details-info-panel">
+                    <span>What I Learned</span>
+                    <p><%= projectDetails.learning %></p>
+                </article>
+            <% } %>
+
+            <% if (projectDetails.aiRole) { %>
+                <article class="details-info-panel">
+                    <span>AI Contribution</span>
+                    <p><%= projectDetails.aiRole %></p>
+                </article>
+            <% } %>
+
+            <% if (projectDetails.date) { %>
+                <article class="details-info-panel">
+                    <span>Project Date</span>
+                    <p><%= projectDetails.date %></p>
+                </article>
+            <% } %>
+        </section>
+
+        <% if (projectDetails.techStack && projectDetails.techStack.length) { %>
+            <section class="details-tech-section">
+                <div class="details-section-heading">
+                    <span>Technologies Used</span>
+                </div>
+
+                <div class="tech-stack">
+                    <% projectDetails.techStack.forEach((tech) => { %>
+                        <span><%= tech %></span>
+                    <% }) %>
+                </div>
+            </section>
+        <% } %>
+    </section>
+<% } else { %>
+    <section class="project-details-page">
+        <div class="details-not-found">
+            <h1>Project not found</h1>
+            <p>The project you are looking for is unavailable.</p>
+            <a href="/projects" class="project-btn details-btn">Back to Projects</a>
+        </div>
+    </section>
+<% } %>

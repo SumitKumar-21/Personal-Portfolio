@@ -1,0 +1,406 @@
+<% layout('/layouts/boilerplate') %>
+<%
+  const selectedStatus = Array.isArray(project.status) ? project.status : [];
+  const selectedTechStack = Array.isArray(project.techStack) ? project.techStack : [];
+%>
+
+<a class="btn btn-dark ms-0 mt-1 admin-back-link" href="/admin/dashboard" role="button">
+  <i class="fa-solid fa-arrow-left bg-transparent fs-6 me-1"></i>
+  Back
+</a>
+  <div class="container admin-project-form-page d-flex justify-content-center align-items-center min-vh-100 py-5">
+    <div class="card admin-project-card col-12 col-md-10 col-lg-8">
+      <div class="card-header admin-project-card-header text-center">
+        <span class="admin-form-kicker">Project Manager</span>
+        <h2 class="bg-transparent fw-bold mb-0 py-2 fs-3 fs-md-2">Edit Project </h2>
+      </div>
+      <div class="card-body admin-project-card-body p-4">
+        <form action="/admin/edit/<%= project._id %>" method="post" class="needs-validation update-form admin-project-form" novalidate enctype="multipart/form-data">
+          
+          <!-- Title -->
+          <div class="mb-4 row align-items-center">
+            <label class="form-label col-12 col-sm-3 fw-bold text-sm-end mb-1 mb-sm-0">Title:</label>
+            <div class="col-12 col-sm-9">
+              <input class="form-control" type="text" name="project[title]" value="<%= project.title %>">
+              <div class="invalid-feedback">⚠️ Title is required</div>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="mb-4 row align-items-center">
+            <label class="form-label col-12 col-sm-3 fw-bold text-sm-end mb-1 mb-sm-0">Short Description:</label>
+            <div class="col-12 col-sm-9">
+              <textarea class="form-control" rows="3" name="project[shortDescription]" ><%= project.shortDescription || "" %></textarea>
+              <div class="invalid-feedback">⚠️required</div>
+            </div>
+          </div>
+
+          <div class="mb-4 row align-items-center">
+            <label class="form-label col-12 col-sm-3 fw-bold text-sm-end mb-1 mb-sm-0">Full Description:</label>
+            <div class="col-12 col-sm-9">
+              <textarea class="form-control" rows="3" name="project[description]" ><%= project.description || "" %></textarea>
+              <div class="invalid-feedback">⚠️ Description required</div>
+            </div>
+          </div>
+
+          <div class="mb-4 row align-items-center">
+            <label class="form-label col-12 col-sm-3 fw-bold text-sm-end mb-1 mb-sm-0">Purpose:</label>
+            <div class="col-12 col-sm-9">
+              <textarea class="form-control" rows="3" name="project[purpose]"><%= project.purpose || "" %></textarea>
+            </div>
+          </div>
+
+          <div class="mb-4 row align-items-center">
+            <label class="form-label col-12 col-sm-3 fw-bold text-sm-end mb-1 mb-sm-0">Learning:</label>
+            <div class="col-12 col-sm-9">
+              <textarea class="form-control" rows="3" name="project[learning]"><%= project.learning || "" %></textarea>
+            </div>
+          </div>
+          <div class="mb-4 row align-items-center">
+            <label class="form-label col-12 col-sm-3 fw-bold text-sm-end mb-1 mb-sm-0">Ai Contribution:</label>
+            <div class="col-12 col-sm-9">
+              <textarea class="form-control" rows="3" name="project[aiRole]"><%= project.aiRole || "" %></textarea>
+            </div>
+          </div>
+
+          <!-- Image Upload -->
+           <div class="mb-4 row align-items-center">
+            <label class="form-label col-12 col-sm-3 fw-bold text-sm-end mb-1 mb-sm-0">Current Image:</label>
+            <div class="col-12 col-sm-9">
+              <img src="<%=project.thumbnail.url %>" class="img-thumbnail admin-current-thumbnail" alt="Current Image">
+            </div>
+          </div>
+          <div class="mb-4 row align-items-center">
+            <label class="form-label col-12 col-sm-3 fw-bold text-sm-end mb-1 mb-sm-0">Thumbnail:</label>
+            <div class="col-12 col-sm-9">
+              <input type="file" class="form-control" name="project[thumbnail]" >
+            </div>
+          </div>
+          <!-- Links -->
+          <div class="mb-4 row g-3">
+            <div class="col-12 col-md-6 row align-items-center mx-0 px-0">
+              <label class="form-label col-12 col-sm-3 fw-bold text-md-end mb-1 mb-sm-0">Live Demo:</label>
+              <div class="col-12 col-sm-9">
+                <input class="form-control" type="text" name="project[iframeUrl]" value="<%= project.iframeUrl %>" >
+                <div class="invalid-feedback">⚠️Links required</div>
+              </div>
+            </div>
+            <div class="col-12 col-md-6 row align-items-center mx-0 px-0">
+              <label class="form-label col-12 col-sm-3 fw-bold text-md-end mb-1 mb-sm-0">Github Link:</label>
+              <div class="col-12 col-sm-9">
+                <input class="form-control" type="text" name="project[githubLink]" value="<%= project.githubLink || '' %>" >
+                <div class="invalid-feedback">⚠️Github Link required</div>
+              </div>
+            </div>
+          </div>
+           <!-- Date -->
+           <div class="mb-4 row g-3">
+            <div class="col-12 col-md-6 row align-items-center mx-0 px-0">
+              <label class="form-label col-12 col-sm-3 fw-bold text-md-end mb-1 mb-sm-0">Date:</label>
+              <div class="col-12 col-sm-9">
+                <input class="form-control" type="date" name="project[date]" value="<%= project.date %>">
+              </div>
+            </div>
+
+             <div class="col-12 col-md-6 d-flex align-items-center justify-content-md-end px-0">
+              <label class="form-label fw-bold me-3 mb-0">Status:</label>
+              <div class="btn-group flex-grow-1" style="max-width: 250px;">
+                <button class="btn btn-secondary" type="button">
+                  Select
+                </button>
+                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+               <ul class="dropdown-menu p-2">
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[status][]" value="Completed" id="checkCompleted" <%= selectedStatus.includes("Completed") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkCompleted">Completed</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[status][]" value="In Progress" id="checkInProgress" <%= selectedStatus.includes("In Progress") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkInProgress">In Progress</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[status][]" value="Archived" id="checkArchived" <%= selectedStatus.includes("Archived") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkArchived">Archived</label>
+    </div>
+  </li>
+</ul>
+              </div>
+            </div>
+
+           <div class="mb-4 row g-3">
+             <div class="col-12 col-md-6 d-flex align-items-center justify-content-md-end px-0">
+              <label class="form-label fw-bold me-3 mb-0">TechStacks:</label>
+              <div class="btn-group flex-grow-1" style="max-width: 250px;">
+                <button class="btn btn-secondary" type="button">
+                  Select
+                </button>
+                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+              <ul class="dropdown-menu p-2">
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="html" id="checkHtml" <%= selectedTechStack.includes("html") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkHtml">HTML</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="css" id="checkCss" <%= selectedTechStack.includes("css") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkCss">CSS</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="bootstrap" id="checkBootstrap" <%= selectedTechStack.includes("bootstrap") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkBootstrap">Bootstrap</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="tailwindCss" id="checkTailwindCss" <%= selectedTechStack.includes("tailwindCss") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkTailwindCss">Tailwind CSS</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="javascript" id="checkJavascript" <%= selectedTechStack.includes("javascript") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkJavascript">JavaScript</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="reactJs" id="checkReactJs" <%= selectedTechStack.includes("reactJs") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkReactJs">React.js</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="angularJs" id="checkAngularJs" <%= selectedTechStack.includes("angularJs") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkAngularJs">Angular.js</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="nextJs" id="checkNextJs" <%= selectedTechStack.includes("nextJs") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkNextJs">Next.js</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="nodeJs" id="checkNodeJs" <%= selectedTechStack.includes("nodeJs") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkNodeJs">Node.js</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="django" id="checkDjango" <%= selectedTechStack.includes("django") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkDjango">Django</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="php" id="checkPhp" <%= selectedTechStack.includes("php") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkPhp">PHP</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="ruby" id="checkRuby" <%= selectedTechStack.includes("ruby") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkRuby">Ruby</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="mysql" id="checkMysql" <%= selectedTechStack.includes("mysql") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkMysql">MySQL</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="postgresql" id="checkPostgresql" <%= selectedTechStack.includes("postgresql") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkPostgresql">PostgreSQL</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="sqlServer" id="checkSqlServer" <%= selectedTechStack.includes("sqlServer") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkSqlServer">SQL Server</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="mongodb" id="checkMongodb" <%= selectedTechStack.includes("mongodb") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkMongodb">MongoDB</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="firebase" id="checkFirebase" <%= selectedTechStack.includes("firebase") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkFirebase">Firebase</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="supabase" id="checkSupabase" <%= selectedTechStack.includes("supabase") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkSupabase">Supabase</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="restApis" id="checkRestApis" <%= selectedTechStack.includes("restApis") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkRestApis">REST APIs</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="webSockets" id="checkWebSockets" <%= selectedTechStack.includes("webSockets") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkWebSockets">WebSockets</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="graphql" id="checkGraphql" <%= selectedTechStack.includes("graphql") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkGraphql">GraphQL</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="mapbox" id="checkMapbox" <%= selectedTechStack.includes("mapbox") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkMapbox">MapBox</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="docker" id="checkDocker" <%= selectedTechStack.includes("docker") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkDocker">Docker</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="aws" id="checkAws" <%= selectedTechStack.includes("aws") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkAws">AWS</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="googleCloud" id="checkGoogleCloud" <%= selectedTechStack.includes("googleCloud") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkGoogleCloud">Google Cloud</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="cloudinary" id="checkCloudinary" <%= selectedTechStack.includes("cloudinary") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkCloudinary">Cloudinary</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="vercel" id="checkVercel" <%= selectedTechStack.includes("vercel") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkVercel">Vercel</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="netlify" id="checkNetlify" <%= selectedTechStack.includes("netlify") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkNetlify">Netlify</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="render" id="checkRender" <%= selectedTechStack.includes("render") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkRender">Render</label>
+    </div>
+  </li>
+
+  <li>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"
+        name="project[techStack][]" value="cloudflare" id="checkCloudflare" <%= selectedTechStack.includes("cloudflare") ? "checked" : "" %>>
+      <label class="form-check-label" for="checkCloudflare">Cloudflare</label>
+    </div>
+  </li>
+</ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="text-center mt-4">
+            <button class="btn admin-project-submit btn-lg px-5">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Sumit Kumar Sah</title>
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/project.css">
+    <!-- Font Awesome  -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&family=Roboto+Mono:wght@100..700&family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+
+<!-- EmailJs setup -->
+ <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init({
+              publicKey: "gCW4L2fAczNPLsK14",
+            });
+        })();
+    </script>
+    <script type="text/javascript">
+      window.onload = function() {
+    const contactForm = document.getElementById("contact-form");
+
+    if (contactForm) {
+        contactForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+           emailjs.send("service_57fiu8s", "template_w5i4sxn", {
+    name: document.querySelector('[name="message[name]"]').value,
+    email: document.querySelector('[name="message[email]"]').value,
+    message: document.querySelector('[name="message[message]"]').value
+})
+.then(() => {
+    contactForm.submit();
+})
+.catch((error) => {
+    console.log("FAILED...", error);
+    alert("Email sending failed. Please try again.");
+});
+        });
+    }
+};
+    </script>
+
+</head>
+<body>
+     <script>
+  setTimeout(() => {
+    const alerts = document.querySelectorAll(".flash-alert");
+
+    alerts.forEach((alert) => {
+      const bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+      bsAlert.close();
+    });
+  }, 2000);
+</script>
+
+       <%- include('../includes/navbar.ejs') %>
+       <div class="container">
+        <%- include('../includes/alert.ejs') %>
+<%- body %>
+       </div>
+    
+       <%- include('../includes/footer.ejs') %>
+    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="/js/script.js"></script> -->
+    <script src="/js/project.js"></script>
+   <script src="/js/conformation.js"></script>
+   <script src="/js/contactme.js"></script>
+</body>
+</html>

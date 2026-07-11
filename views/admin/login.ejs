@@ -1,0 +1,30 @@
+<% layout("./layouts/boilerplate") %>
+
+<form action="/admin/login" method="post" class="needs-validation" novalidate>
+<div class="container d-flex justify-content-center align-items-center min-vh-100 py-5">
+  <div class="border border-dark p-4 rounded-3 shadow col-12 col-sm-10 col-md-8 col-lg-5">
+    <h1 class="text-center mb-4">Login</h1>
+      
+      <!-- Username -->
+      <div class="mb-3 row align-items-center">
+        <label class="form-label col-12 col-sm-3 text-sm-end mb-1 mb-sm-0">Username</label>
+        <div class="col-12 col-sm-9">
+          <input type="text" class="form-control" name="username" required>
+        </div>
+      </div>
+      
+      <!-- Password -->
+      <div class="mb-3 row align-items-center">
+        <label class="form-label col-12 col-sm-3 text-sm-end mb-1 mb-sm-0">Password</label>
+        <div class="col-12 col-sm-9">
+          <input type="password" class="form-control" name="password" required>
+        </div>
+      </div>
+      
+      <!-- Submit -->
+      <div class="text-center mt-4">
+        <button class="btn btn-primary px-5">Login</button>
+      </div>
+  </div>
+</div>
+</form>
